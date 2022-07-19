@@ -1,0 +1,10 @@
+.news_list__cont {
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-between;
+    align-items: center;
+    height: var(--body-height);
+    width: var(--main-width);
+}

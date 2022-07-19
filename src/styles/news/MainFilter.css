@@ -1,0 +1,42 @@
+.main_filter__cont {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.main_filter__opt {
+    align-items: center;
+    border: solid 1px var(--muted-color);
+    border-radius: 2px;
+    color: var(--muted-color);
+    display: flex;
+    height: 31px;
+    justify-content: center;
+    width: 98px;
+}
+
+.main_filter__opt div {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+.main_filter__cont .main_filter__opt:first-child {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.main_filter__cont .main_filter__opt:last-child {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.main_filter__opt.selected {
+    border: solid 1px var(--accent-color);
+    color: var(--accent-color);
+}

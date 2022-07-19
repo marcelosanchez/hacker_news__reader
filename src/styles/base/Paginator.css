@@ -1,0 +1,22 @@
+.paginator__cont {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 98px;
+}
+.paginator__page_cont {
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    border-radius: 6px;
+    border: solid 1px #d9d9d9;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginator__page_cont.selected {
+    border: solid 1px var(--accent-color);
+    background-color: var(--accent-color);
+    color: #fff;
+}
