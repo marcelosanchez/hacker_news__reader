@@ -1,7 +1,5 @@
 # Hacker News Reader
 
----
-
 Requirements you need before deploying the project in a local environment.
 
 - Node js
