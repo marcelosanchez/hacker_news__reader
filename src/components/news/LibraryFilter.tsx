@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { NewsList } from './NewsList';
+
 import angular_img from '../../assets/libraries/angular.png';
 import react_img from '../../assets/libraries/react.png';
 import vue_img from '../../assets/libraries/vue.png';
-
 import '../../styles/news/LibraryFilter.css';
-import { NewsList } from './NewsList';
 
 export const LibraryFilter = () => {
     let options = [

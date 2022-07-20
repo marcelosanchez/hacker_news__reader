@@ -18,7 +18,6 @@ export const MainFilter = ( { tabs , setTab}:{tabs:{ label: string; value: strin
                     </div>
                 })
             }
-            
         </div>
     )
 }

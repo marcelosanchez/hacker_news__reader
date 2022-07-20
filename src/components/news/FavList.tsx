@@ -1,21 +1,21 @@
-
 import { useState } from 'react';
 import { NewsItem } from "./NewsItem"
+import { updateLocalStorage } from "../../helpers/updateLocalStorage";
 
-export const FavList = ()=>{
+export const FavList = () => {
     const favNewsStored  = localStorage.getItem('favNews') ? JSON.parse(localStorage.getItem('favNews')!) : [];
-    console.log('favNewsStored:',favNewsStored)
-    const [favslist] = useState(favNewsStored)
+    const [favsList, setFavList] = useState(favNewsStored)
+
+    const handleLike = ( _news_item:any , _fav_status: number )=>{
+        updateLocalStorage(_news_item, _fav_status)
+        setFavList( localStorage.getItem('favNews') ? JSON.parse(localStorage.getItem('favNews')!) : []  )
+    }
     return(
         <div className="library_filter__cont">
             <div className="news_list__cont">
-                {   favslist.length > 0
-                    ? 
-                        favslist.map((item:any, index: number) => {
-                            return <NewsItem key={index} {...item} />
-                        })
-                    :
-                    <div className="news_list__empty">No news found</div>
+                {   favsList.map((item:any, index: number) => {
+                        return <NewsItem key={index} {...item} handleLike={handleLike} />
+                    })
                 }
             </div>
         </div>
