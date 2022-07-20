@@ -12,34 +12,46 @@ export const LibraryFilter = () => {
         {name: 'React', image: react_img},
         {name: 'Vue', image: vue_img},
     ];
-    const selectedLibraryStorage = localStorage.getItem('selectedLibrary');
+    const selectedLibraryStorage = localStorage.getItem('selectedLibrary') ? localStorage.getItem('selectedLibrary') : '';
     const selectedLibrary = selectedLibraryStorage !== 'undefined' && selectedLibraryStorage !== '' ? JSON.parse(selectedLibraryStorage!) : options[0];
-    const option_index = options.indexOf(selectedLibrary);
-    console.log('option_index', option_index);
-    console.log('selectedLibrary', selectedLibrary);
-    const [selected, setSelected] = useState(selectedLibrary);
+
+    let option_index = 0
+
+    const found = options.find(function(item: { name: string; }, i: number){
+        if(item.name === selectedLibrary.name){
+            option_index = i;
+            return selectedLibrary;
+        }
+    });
     
-    console.log('selected', selected);
+    
+    const [selectedObject, setSelectedObject] = useState(selectedLibrary);
+    const [selectedIndex, setSelectedIndex] = useState(option_index);
+
 
     // Persist the selected option in localStorage
     useEffect( () => {
-        console.log('-- Cada vez que se cambia el valor de selected');
-        localStorage.setItem('selectedLibrary', JSON.stringify(selected));
+        localStorage.setItem('selectedLibrary', JSON.stringify(selectedObject));
     }   
-    , [selected]);
+    , [selectedObject, selectedIndex]);
 
+
+    const handleSelectChange = (_e:any)=>{
+        setSelectedObject(options[_e.target.selectedIndex])
+        setSelectedIndex(_e.target.selectedIndex)
+    }
 
     return (
         <>
             <div className="library_filter__cont">
-                <select className="library_filter__select" onChange={ (e) => setSelected(options[e.target.selectedIndex]) }>
+                <select className="library_filter__select" onChange={ handleSelectChange } value= {selectedIndex}>
                     {options.map((option, index) => {
-                        return <option key={index} value={index} style={{ 'backgroundImage': `url(${option.image })`}}>{option.name}</option>
+                        return <option key={index} value={index} style={{ 'backgroundImage': `url(${option.image })`}} >{option.name}</option>
                     }
                     )}
                 </select>
             </div>
-            <NewsList selected={selected}/>
+            <NewsList selected={selectedObject}/>
         </>
     )
 }

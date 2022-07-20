@@ -15,26 +15,27 @@ export const NewsList = ({selected}:{selected:{
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect( () => { 
-        async function fetchData() {
-            try {
-                const res = await loadNews(selected.name, page);
-                setNews(res.newsList);
-                setLoading(false);
-                setTotalPages(res.nbPages);
-                localStorage.setItem('currentNews', JSON.stringify(news));
-                localStorage.setItem('currentPage', '0');
-                localStorage.setItem('nbPages', ""+totalPages);
-            } catch (err) {
-                console.log(err);
-            }
-        }
         fetchData();
-    }, [selected]);
+    }, [selected, page]);
+
+    async function fetchData() {
+        try {
+            const res = await loadNews(selected.name, page);
+            setNews(res.newsList);
+            setLoading(false);
+            setTotalPages(res.nbPages);
+            localStorage.setItem('currentNews', JSON.stringify(news));
+            localStorage.setItem('currentPage', '0');
+            localStorage.setItem('nbPages', ""+totalPages);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     // Invoke when user click to request another page.
-    const handlePageClick = (event:any) => {
-        const selectedPage = event.selected;
-        setPage(selectedPage);
+    const handlePageClick = (_page:number) => {
+        _page = (_page-1) >= 0 ? (_page-1) : 0
+        setPage(_page);
     };
 
     return (
@@ -45,13 +46,13 @@ export const NewsList = ({selected}:{selected:{
                     ? <div className="news_list__loading">Loading...</div> 
                     : news.map((item:any, index) => {
                         return <NewsItem key={index} {...item} />
-                    }
-                )}
+                    })
+                }
 
                 
             </div>
             <div className="news_list__paginator">
-                <Paginator totalPages={totalPages}/>
+                <Paginator totalPages={totalPages} handlePageClick={handlePageClick} />
             </div>
         </>
     )

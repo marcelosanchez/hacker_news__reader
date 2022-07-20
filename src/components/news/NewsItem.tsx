@@ -5,26 +5,32 @@ import timeIcon from '../../assets/icons/time.svg'
 import ReactTimeAgo from 'react-time-ago'
 import { useState, useEffect } from 'react';
 
-export const NewsItem = ( { author, story_title, story_url, created_at, fav_status }: { author: string; story_title: string; story_url: string; created_at: number; fav_status: number } ) => {
+export const NewsItem = ( { object_id, author, story_title, story_url, created_at, fav_status }: { object_id:string; author: string; story_title: string; story_url: string; created_at: number; fav_status: number } ) => {
     const [favStatus, setFavStatus] = useState(fav_status);
 
     useEffect(() => {
         // save the news marked as favorite in localStorage
+        let favStorage = localStorage.getItem('favNews') ? JSON.parse(localStorage.getItem('favNews')!) : [] ;
         if (favStatus === 1) {
             const favNews = {
+                object_id: object_id,
                 author: author,
                 story_title: story_title,
                 story_url: story_url,
                 created_at: created_at,
                 fav_status: 1
             }
-            localStorage.getItem('favNews') 
-                ? localStorage.setItem('favNews', JSON.stringify(JSON.parse(localStorage.getItem('favNews')!).concat(favNews))) 
-                : localStorage.setItem('favNews', JSON.stringify([favNews]));
-                
+            const found = favStorage.find(function(item: { object_id: string; }){
+                if(item.object_id === object_id){
+                    return item;
+                }
+            });
+            if(!found){
+                favStorage.push(favNews);
+                localStorage.setItem('favNews', JSON.stringify(favStorage));
+            }
         } else {
-            const favNews = JSON.parse(localStorage.getItem('favNews') || '[]');
-            const newFavNews = favNews.filter((fnews: { created_at: number; }) => fnews.created_at !== created_at);
+            const newFavNews = favStorage.filter((fnews: { object_id: string; }) => fnews.object_id !== object_id);
             localStorage.setItem('favNews', JSON.stringify(newFavNews));
         }
     }, [favStatus]);
@@ -56,11 +62,3 @@ export const NewsItem = ( { author, story_title, story_url, created_at, fav_stat
         </div>
     )
 }
-//             }
-//             }>
-//                 <img className="news_item__fav__img" src={fav_status ? favoriteIcon : unfavoriteIcon} alt="fav" />
-//                 {fav_status === 1 ? <img className="news_item__fav__img" src={favoriteIcon} alt="fav" /> : <img className="news_item__fav__img" src={unfavoriteIcon} alt="fav" />}
-//             </div>
-//         </div>
-//     )
-// }
